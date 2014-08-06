@@ -1,0 +1,12 @@
+- play sound across single frequency based on light intensity
+- knockoutjs
+- play sound across all frequency based on light intensity
+- grunt
+- style (preboot?)
+- contrast & lightness controls
+- blur control
+- tape head indication
+- frequency range control
+- time span control
+- reverb/delay/sound controls
+- waves types mapped to RGB?

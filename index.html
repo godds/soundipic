@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Soundipic</title>
+	<head>
+	<body>
+
+		<h1>Soundipic</h1>
+
+		<form class="pic" data-bind="visible: showSelector">
+			<input type="file" data-bind="event: { change: function() { fileSelected(event); } }"/>
+		</form>
+
+    <div class="sound" data-bind="visible: showPlayer">
+      <canvas class="pic"></canvas>
+    </div>
+
+		<script src="js/knockout.js" type="text/javascript"></script>
+		<script src="js/tinycolor.js" type="text/javascript"></script>
+
+		<script src="viewModel/AppViewModel.js" type="text/javascript"></script>
+		<script  type="text/javascript">
+			ko.applyBindings(new AppViewModel());
+		</script>
+
+	</body>
+</html>
