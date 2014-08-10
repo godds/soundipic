@@ -4,6 +4,8 @@ function AppViewModel() {
   this.showSelector = ko.observable(true);
   this.showPlayer = ko.observable(false);
 
+  this.soundipic = new Soundipic();
+
   this.fileSelected = function(event) {
     var files = event.target.files;
 
@@ -22,7 +24,9 @@ function AppViewModel() {
           var canvas = document.querySelector(".sound canvas.pic");
           canvas.width = width;
           canvas.height = height;
-          canvas.getContext("2d").drawImage(image, 0, 0, width, height);
+          var context = canvas.getContext("2d");
+          context.drawImage(image, 0, 0, width, height);
+          that.soundipic.play(context.getImageData(0, 0, width, height));
 
           that.showSelector(false);
           that.showPlayer(true);

@@ -1,5 +1,5 @@
 - play sound across single frequency based on light intensity
-- knockoutjs
+- angularjs
 - play sound across all frequency based on light intensity
 - grunt
 - style (preboot?)
