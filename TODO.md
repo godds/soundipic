@@ -1,7 +1,5 @@
 - play sound across single frequency based on light intensity
-- angularjs
 - play sound across all frequency based on light intensity
-- grunt
 - style (preboot?)
 - contrast & lightness controls
 - blur control
