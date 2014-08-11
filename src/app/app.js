@@ -1,8 +1,7 @@
 angular.module("soundipic", [
         "templates-app",
         "templates-common",
-        "ui.state",
-        "ui.route",
+        "ui.router",
         "soundipic.pick",
         "soundipic.sound"
     ])

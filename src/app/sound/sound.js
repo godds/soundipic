@@ -1,5 +1,5 @@
 angular.module("soundipic.sound", [
-    "ui.state"
+    "ui.router"
 ])
 
 .config(function config($stateProvider) {
