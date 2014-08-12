@@ -1,34 +1,47 @@
 angular.module("soundipic.pick", [
-    "ui.router"
+  "ui.router",
+  "soundipic.model"
 ])
 
 .config(function config($stateProvider) {
-    $stateProvider.state("pick", {
-        url: "/pick",
-        views: {
-            "main": {
-                controller: "PickCtrl",
-                templateUrl: "pick/pick.tpl.html"
-            }
-        }
-    });
+  $stateProvider.state("pick", {
+    url: "/pick",
+    views: {
+      "main": {
+        controller: "PickCtrl",
+        templateUrl: "pick/pick.tpl.html"
+      }
+    }
+  });
 })
 
-.controller("PickCtrl", function PickController($scope, $state) {
-    $scope.title = "pick";
+.controller("PickCtrl", function PickController($scope, $state, model) {
 
-    $scope.navigate = function() {
-      $state.go("sound");
-    };
+  function readFile(event) {
+    model.imageData = event.target.result;
+    $state.go("sound");
+  }
+
+  $scope.file = null;
+
+  $scope.upload = function() {
+
+    // TODO better way of handling this?
+    if (!$scope.file) {
+      console.log("no file selected");
+      return;
+    }
+    if (!$scope.file.type.match(/image.*/)) {
+      console.log("file must be image");
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = readFile;
+    reader.readAsDataURL($scope.file);
+  };
 
     /*
-      this.fileSelected = function(event) {
-        var files = event.target.files;
-
-        for (var i = 0; i < files.length; i++) {
-
-          if (files[i].type.match(/image.*//*)) {
-            var reader = new FileReader();
             reader.onload = function(readerEvent) {
               var image = new Image();
               image.src = readerEvent.target.result;
@@ -46,14 +59,29 @@ angular.module("soundipic.pick", [
               that.showSelector(false);
               that.showPlayer(true);
             }
-
-            reader.readAsDataURL(files[i]);
-
-          }
-
-        }
-      };
       */
+})
+
+.directive("imageInput", function($parse) {
+  return {
+    restrict: "E",
+    template: "<input type='file' accept='images/*' />",
+    replace: true,
+    link: function(scope, element, attrs) {
+      var modelGet = $parse(attrs.file);
+      var modelSet = modelGet.assign;
+      var onChange = $parse(attrs.onchange);
+
+      var updateModel = function() {
+        scope.$apply(function() {
+          modelSet(scope, element[0].files[0]);
+          onChange(scope);
+        });
+      };
+
+      element.bind("change", updateModel);
+    }
+  };
 })
 
 ;
