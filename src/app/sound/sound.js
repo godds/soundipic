@@ -1,5 +1,6 @@
 angular.module("soundipic.sound", [
   "ui.router",
+  "audio.soundipic",
   "soundipic.model"
 ])
 
@@ -15,10 +16,20 @@ angular.module("soundipic.sound", [
   });
 })
 
-.controller("SoundCtrl", function SoundController($scope, model) {
-    $scope.title = "Sound";
+.controller("SoundCtrl", function SoundController($scope, model, soundipic) {
+    $scope.playing = false;
+    $scope.imageSrc = model.imageSrc();
 
-    $scope.imageSrc = model.imageData;
+    $scope.togglePlaying = function() {
+      if ($scope.playing) {
+        soundipic.stop();
+        $scope.playing = false;
+      }
+      else {
+        soundipic.play(model.imageData());
+        $scope.playing = true;
+      }
+    };
 })
 
 ;

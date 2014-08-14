@@ -25,7 +25,7 @@ angular.module("audio", [])
         },
         createGain: function (gain) {
             var node = audioContext.createGain();
-            node.gain.value = gain || node.gain.value;
+            node.gain.value = isNaN(gain) ? node.gain.value : gain;
             return node;
         },
         createAnalyser: function () {

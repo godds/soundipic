@@ -18,7 +18,7 @@ angular.module("soundipic.pick", [
 .controller("PickCtrl", function PickController($scope, $state, model) {
 
   function readFile(event) {
-    model.imageData = event.target.result;
+    model.imageSrc(event.target.result);
     $state.go("sound");
   }
 
@@ -40,26 +40,6 @@ angular.module("soundipic.pick", [
     reader.onload = readFile;
     reader.readAsDataURL($scope.file);
   };
-
-    /*
-            reader.onload = function(readerEvent) {
-              var image = new Image();
-              image.src = readerEvent.target.result;
-
-              var width = image.width,
-                  height = image.height;
-
-              var canvas = document.querySelector(".sound canvas.pic");
-              canvas.width = width;
-              canvas.height = height;
-              var context = canvas.getContext("2d");
-              context.drawImage(image, 0, 0, width, height);
-              that.soundipic.play(context.getImageData(0, 0, width, height));
-
-              that.showSelector(false);
-              that.showPlayer(true);
-            }
-      */
 })
 
 .directive("imageInput", function($parse) {
