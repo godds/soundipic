@@ -37,7 +37,7 @@ angular.module("audio.soundipic", [
     var result = [],
         volCount = volumes.length / count,
         freqStep = (MAX_FREQ - MIN_FREQ) / count;
-    for (var i = 0; i < count; i++) {
+    for (var i = count - 1; i >= 0; i--) {
       var noteVols = volumes.splice(0, volCount),
           osc = audio.createOscillator("sine", MIN_FREQ + (i * freqStep)),
           gain = audio.createGain(noteVols[0]);

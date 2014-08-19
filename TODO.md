@@ -1,4 +1,3 @@
-- invert frequency scale
 - use logarithmic frequency scale
 - playback finishing at end of picture
 - style (preboot?)
