@@ -1,5 +1,6 @@
-- play sound across single frequency based on light intensity
-- play sound across all frequency based on light intensity
+- invert frequency scale
+- use logarithmic frequency scale
+- playback finishing at end of picture
 - style (preboot?)
 - contrast & lightness controls
 - blur control
