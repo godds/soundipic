@@ -1,2 +1,7 @@
 <img ng-src="{{ imageSrc }}" />
 <button type="button" class="btn btn-primary" ng-click="togglePlaying()">{{ playing ? 'Stop' : 'Play' }}</button>
+<div>
+  <h4>Volume: {{ volume }}</h4>
+  <button type="button" class="btn btn-default" ng-click="volumeDown()">-</button>
+  <button type="button" class="btn btn-default" ng-click="volumeUp()">+</button>
+</div>
