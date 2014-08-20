@@ -1,5 +1,6 @@
-- use logarithmic frequency scale
 - playback finishing at end of picture
+- play 2nd time for same picture
+- drop/select in new picture without refreshing
 - style (preboot?)
 - contrast & lightness controls
 - blur control

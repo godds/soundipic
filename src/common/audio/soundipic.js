@@ -6,8 +6,8 @@ angular.module("audio.soundipic", [
 
   var voices = [];
 
-  var MAX_FREQ = 10000,
-      MIN_FREQ = 100;
+  var MAX_FREQ = 20000,
+      MIN_FREQ = 20;
 
   var requestID,
       currentStep = 0,
@@ -36,10 +36,13 @@ angular.module("audio.soundipic", [
   function createVoices(count, volumes) {
     var result = [],
         volCount = volumes.length / count,
-        freqStep = (MAX_FREQ - MIN_FREQ) / count;
+        maxFreq = Math.log(MAX_FREQ),
+        minFreq = Math.log(MIN_FREQ),
+        freqStep = (maxFreq - minFreq) / (count - 1);
     for (var i = count - 1; i >= 0; i--) {
+      console.log("freq: " + Math.round(Math.exp(minFreq + (i * freqStep))));
       var noteVols = volumes.splice(0, volCount),
-          osc = audio.createOscillator("sine", MIN_FREQ + (i * freqStep)),
+          osc = audio.createOscillator("sine", Math.round(Math.exp(minFreq + (i * freqStep)))),
           gain = audio.createGain(noteVols[0]);
       audio.connect(osc, gain, audio.speakers());
       result[i] = { osc: osc, gain: gain, volumes: noteVols };
