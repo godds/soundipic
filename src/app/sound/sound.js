@@ -18,32 +18,35 @@ angular.module("soundipic.sound", [
 })
 
 .controller("SoundCtrl", function SoundController($scope, model, audio, soundipic) {
-    $scope.playing = false;
-    $scope.imageSrc = model.imageSrc();
+
+  audio.masterVolume(0.008);
+
+  $scope.playing = false;
+  $scope.imageSrc = model.imageSrc();
+  $scope.volume = audio.masterVolume();
+
+  function adjustVolume(delta) {
+    audio.masterVolume(audio.masterVolume() + delta);
     $scope.volume = audio.masterVolume();
+  }
 
-    function adjustVolume(delta) {
-      audio.masterVolume(audio.masterVolume() + delta);
-      $scope.volume = audio.masterVolume();
+  $scope.togglePlaying = function() {
+    if ($scope.playing) {
+      soundipic.stop();
+      $scope.playing = false;
     }
+    else {
+      soundipic.play(model.imageData());
+      $scope.playing = true;
+    }
+  };
 
-    $scope.togglePlaying = function() {
-      if ($scope.playing) {
-        soundipic.stop();
-        $scope.playing = false;
-      }
-      else {
-        soundipic.play(model.imageData());
-        $scope.playing = true;
-      }
-    };
-
-    $scope.volumeDown = function() {
-      adjustVolume(-0.1);
-    };
-    $scope.volumeUp = function() {
-      adjustVolume(0.1);
-    };
+  $scope.volumeDown = function() {
+    adjustVolume(-0.1);
+  };
+  $scope.volumeUp = function() {
+    adjustVolume(0.1);
+  };
 })
 
 ;
