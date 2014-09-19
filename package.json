@@ -2,7 +2,7 @@
     "author": "Graham Odds",
     "name": "Soundipic",
     "description": "Pick a pic to find out what it sound like",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "licenses": {
         "type": "MIT",
         "url": "https://raw.github.com/godds/soundipic/master/LICENSE"

@@ -3,6 +3,9 @@
 <head>
   <title>Soundipic</title>
 
+  <script src="//use.typekit.net/dkq7che.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+
   <% styles.forEach(function(file) { %>
   <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
 
@@ -11,7 +14,7 @@
 </head>
 <body>
 
-  <h1>Soundipic</h1>
+  <h1 class="title">Soundipic</h1>
 
   <div ui-view="main"></div>
 

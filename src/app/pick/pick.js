@@ -1,5 +1,6 @@
 angular.module("soundipic.pick", [
   "ui.router",
+  "angularFileUpload",
   "soundipic.model"
 ])
 
@@ -22,45 +23,37 @@ angular.module("soundipic.pick", [
     $state.go("sound");
   }
 
-  $scope.file = null;
-
-  $scope.upload = function() {
-
+  $scope.onFileSelect = function(files) {
     // TODO better way of handling this?
-    if (!$scope.file) {
+    if (!files || !files.length) {
       console.log("no file selected");
       return;
     }
-    if (!$scope.file.type.match(/image.*/)) {
+    var file = files[0];
+    if (!file.type.match(/image.*/)) {
       console.log("file must be image");
       return;
     }
 
     var reader = new FileReader();
     reader.onload = readFile;
-    reader.readAsDataURL($scope.file);
+    reader.readAsDataURL(file);
   };
-})
 
-.directive("imageInput", function($parse) {
-  return {
-    restrict: "E",
-    template: "<input type='file' accept='images/*' />",
-    replace: true,
-    link: function(scope, element, attrs) {
-      var modelGet = $parse(attrs.file);
-      var modelSet = modelGet.assign;
-      var onChange = $parse(attrs.onchange);
-
-      var updateModel = function() {
-        scope.$apply(function() {
-          modelSet(scope, element[0].files[0]);
-          onChange(scope);
-        });
-      };
-
-      element.bind("change", updateModel);
-    }
+  $scope.dragOverClass = function(event) {
+    var items = $event.dataTransfer.items;
+		var hasFile = false;
+		if (items && items.length) {
+			for (var i = 0 ; i < items.length; i++) {
+				if (items[i].kind == 'file') {
+					hasFile = true;
+					break;
+				}
+			}
+		} else {
+			hasFile = true;
+		}
+		return hasFile ? "dragover" : "dragover-err";
   };
 })
 

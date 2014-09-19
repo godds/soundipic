@@ -1,1 +1,5 @@
-<image-input file="file" onchange="upload()" />
+<div class="pick" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="dragOverClass($event)" ng-file-drag-over-delay="100">
+  <div class="file-select" ng-file-select="onFileSelect($files)"><span>pick a pic</span></div>
+  <div class="small">(or drop one in)</div>
+  to find out what it sound like
+</div>

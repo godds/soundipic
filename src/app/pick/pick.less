@@ -1,30 +1,11 @@
-ul.tracks {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.pick {
+  text-align: center;
+  font-size: 60px;
 
-  > li {
-    display: block;
-    background-color: @gray-light;
-    width: 100%;
-    margin: 10px;
-    padding: 10px;
-
-    .audio-meter {
-      height: 80px;
-      width: 10px;
-      #gradient > .vertical-three-colors(red, yellow, 12%, green);
-      display: inline-block;
-      margin: 0;
-      position: relative;
-
-      > .overlay {
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: @gray-light;
-      }
-    }
+  .file-select > span {
+    border: 1px solid @gray-darker;
+    background-color: @gray-lighter;
+    padding: 0 35px;
+    margin-bottom: 10px;
   }
 }
