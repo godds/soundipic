@@ -2,7 +2,7 @@ angular.module("audio.soundipic", [
   "audio"
 ])
 
-.factory("soundipic", function(audio) {
+.factory("soundipic", function($rootScope, audio) {
 
   var voices = [];
 
@@ -12,6 +12,7 @@ angular.module("audio.soundipic", [
   var requestID,
       currentStep = 0,
       nextStepTime = 0,
+      steps = 0,
       scheduleAheadTime = 0.1;
 
   function imageDataToRGBA(imageData) {
@@ -40,7 +41,6 @@ angular.module("audio.soundipic", [
         minFreq = Math.log(MIN_FREQ),
         freqStep = (maxFreq - minFreq) / (count - 1);
     for (var i = count - 1; i >= 0; i--) {
-      console.log("freq: " + Math.round(Math.exp(minFreq + (i * freqStep))));
       var noteVols = volumes.splice(0, volCount),
           osc = audio.createOscillator("sine", Math.round(Math.exp(minFreq + (i * freqStep)))),
           gain = audio.createGain(noteVols[0]);
@@ -55,7 +55,12 @@ angular.module("audio.soundipic", [
       updateVolume(currentStep);
       currentStep++;
     }
-    requestID = requestAnimationFrame(looper);
+    if (currentStep < steps) {
+      requestID = requestAnimationFrame(looper);
+    }
+    else {
+      stop();
+    }
   }
 
   function updateVolume(step) {
@@ -64,26 +69,33 @@ angular.module("audio.soundipic", [
     });
   }
 
+  function play(imageData) {
+    currentStep = 0;
+    steps = imageData.width;
+    var rgba = imageDataToRGBA(imageData),
+        volumes = rgbaToVolume(rgba);
+    scheduleAheadTime = 30000 / steps;
+    voices = createVoices(imageData.height, volumes);
+    $rootScope.$emit("playing", true);
+    voices.forEach(function(voice) {
+      voice.osc.start(0);
+    });
+    nextStepTime = audio.currentTime();
+    looper();
+  }
+
+  function stop() {
+    $rootScope.$emit("playing", false);
+    cancelAnimationFrame(requestID);
+    requestID = null;
+    voices.forEach(function(voice) {
+      voice.osc.stop(0);
+    });
+  }
+
   return {
-
-    play: function(imageData) {
-      var rgba = imageDataToRGBA(imageData),
-          volumes = rgbaToVolume(rgba);
-      scheduleAheadTime = 30000 / imageData.width;
-      voices = createVoices(imageData.height, volumes);
-      voices.forEach(function(voice) {
-        voice.osc.start(0);
-      });
-      nextStepTime = audio.currentTime();
-      looper();
-    },
-
-    stop: function() {
-      voices.forEach(function(voice) {
-        voice.osc.stop(0);
-      });
-    }
-
+    play: play,
+    stop: stop
   };
 
 })

@@ -17,33 +17,40 @@ angular.module("soundipic.sound", [
   });
 })
 
-.controller("SoundCtrl", function SoundController($scope, model, audio, soundipic) {
+.controller("SoundCtrl", function SoundController($scope, $rootScope, model, audio, soundipic) {
+    var MAX_VOL = 0.1,
+        MIN_VOL = 0.01;
+    audio.masterVolume(MAX_VOL);
+
     $scope.playing = false;
     $scope.imageSrc = model.imageSrc();
-    $scope.volume = audio.masterVolume();
+    $scope.volume = audio.masterVolume() * 100;
 
     function adjustVolume(delta) {
-      audio.masterVolume(audio.masterVolume() + delta);
-      $scope.volume = audio.masterVolume();
+      audio.masterVolume(Math.max(Math.min(audio.masterVolume() + delta, MAX_VOL), MIN_VOL));
+      $scope.volume = audio.masterVolume() * 100;
     }
 
     $scope.togglePlaying = function() {
       if ($scope.playing) {
         soundipic.stop();
-        $scope.playing = false;
       }
       else {
         soundipic.play(model.imageData());
-        $scope.playing = true;
       }
     };
 
     $scope.volumeDown = function() {
-      adjustVolume(-0.1);
+      adjustVolume(-0.01);
     };
     $scope.volumeUp = function() {
-      adjustVolume(0.1);
+      adjustVolume(0.01);
     };
+
+    $rootScope.$on("playing", function(event, isPlaying) {
+      $scope.playing = isPlaying;
+      $scope.$apply();
+    });
 })
 
 ;

@@ -1,5 +1,4 @@
-- playback finishing at end of picture
-- play 2nd time for same picture
+- merge oscillators for same frequency
 - drop/select in new picture without refreshing
 - style (preboot?)
 - contrast & lightness controls
